@@ -8,14 +8,16 @@
 		<version>2.6.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.caixiu</groupId>
-	<artifactId>backend</artifactId>
+
+	<groupId>com.holmes</groupId>
+	<artifactId>caixiu-backend</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>backend</name>
+	<name>caixiu-backend</name>
+
 	<description>Code name: Caixiu. Backend server for DB and API access.</description>
-	<properties>
-		<java.version>17</java.version>
-	</properties>
+<!--	<properties>-->
+<!--		<java.version>17</java.version>-->
+<!--	</properties>-->
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -42,10 +44,10 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>16</source>
-					<target>16</target>
-				</configuration>
+<!--				<configuration>-->
+<!--					<source>17</source>-->
+<!--					<target>17</target>-->
+<!--				</configuration>-->
 			</plugin>
 		</plugins>
 	</build>
