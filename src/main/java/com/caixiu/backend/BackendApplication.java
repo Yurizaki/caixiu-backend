@@ -23,9 +23,10 @@ public class BackendApplication implements CommandLineRunner {
 
 	@Override
 	public void run(String... args) {
-		User user = userRepository.findUserByUsername("alex");
+		User user = userRepository.findUserByUsername("Bill");
 		if(user == null) {
-			userRepository.save(new User("1", "alex", LocalDateTime.now()));
+			userRepository.save(new User("2", "Bill", LocalDateTime.now()));
+			user = userRepository.findUserByUsername("Bill");
 		}
 
 		System.out.println("Item Name: " + user.getUsername());
