@@ -15,11 +15,14 @@
 	<name>caixiu-backend</name>
 	<description>Code name: Caixiu. Backend server for DB and API access.</description>
 
+	<repositories>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
+		</repository>
+	</repositories>
+
 	<dependencies>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-data-mongodb</artifactId>
-		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
@@ -29,6 +32,18 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.Yurizaki</groupId>
+			<artifactId>caixiu-db</artifactId>
+			<version>main-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.github.Yurizaki</groupId>
+			<artifactId>caixiu-aws</artifactId>
+			<version>main-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
@@ -45,4 +60,13 @@
 		</plugins>
 	</build>
 
+	<distributionManagement>
+		<repository>
+			<uniqueVersion>false</uniqueVersion>
+			<id>corp1</id>
+			<name>Corporate Repository</name>
+			<url>file://${basedir}/build</url>
+			<layout>default</layout>
+		</repository>
+	</distributionManagement>
 </project>
