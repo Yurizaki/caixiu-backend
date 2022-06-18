@@ -34,16 +34,19 @@
 			<scope>test</scope>
 		</dependency>
 
-<!--		<dependency>-->
-<!--			<groupId>com.github.Yurizaki</groupId>-->
-<!--			<artifactId>caixiu-db</artifactId>-->
-<!--			<version>main-SNAPSHOT</version>-->
-<!--		</dependency>-->
-
 		<dependency>
 			<groupId>com.github.Yurizaki</groupId>
 			<artifactId>caixiu-aws</artifactId>
 			<version>main-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.logging.log4j</groupId>
+			<artifactId>log4j-core</artifactId>
 		</dependency>
 	</dependencies>
 

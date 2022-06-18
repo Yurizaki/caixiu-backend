@@ -1,31 +1,45 @@
 package com.caixiu.backend.vocabulary;
 
-import com.caixiu.backend.user.model.User;
-import com.caixiu.backend.user.repository.UserRepository;
-//import com.holmes.crud.read.DataReader;
-//import com.holmes.vocabulary.Vocabulary;
 import com.holmes.aws.vocabulary.AwsDynamoDbVocabulary;
+import com.holmes.aws.vocabulary.Vocabulary;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import software.amazon.awssdk.regions.Region;
-import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
 import java.util.List;
 
 @RestController
 public class VocabularyController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(VocabularyController.class);
+
     @Autowired
     AwsDynamoDbVocabulary awsDynamoDbVocabulary;
 
+    @GetMapping(path = "/vocabularies")
+    public List<Vocabulary> getAllVocabulary() {
+        LOGGER.info("Get All Vocabulary");
+        return awsDynamoDbVocabulary.getAllItems();
+    }
 
-    @RequestMapping(value = "/vocabularies")
-    public String getUser() {
+    @GetMapping(path = "/vocabularies/{key}")
+    public Vocabulary getVocabulary(@PathVariable String key) {
+        LOGGER.info("Getting Vocabulary for: " + key);
+        return awsDynamoDbVocabulary.getVocabulary(key);
+    }
 
-
-        awsDynamoDbVocabulary.getAllItems();
-
-        return "dataReader.findAll()";
+    @PostMapping(path = "/vocabularies",
+            consumes = MediaType.APPLICATION_JSON_VALUE,
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public Vocabulary putVocabulary(@RequestBody Vocabulary vocabulary) {
+        LOGGER.info("Putting new Vocabulary: " + vocabulary);
+        awsDynamoDbVocabulary.putVocabulary(vocabulary);
+        return awsDynamoDbVocabulary.getVocabulary(vocabulary.getK_vocab_id());
     }
 }
