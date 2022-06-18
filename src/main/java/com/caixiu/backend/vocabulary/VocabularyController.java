@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -41,5 +42,12 @@ public class VocabularyController {
         LOGGER.info("Putting new Vocabulary: " + vocabulary);
         awsDynamoDbVocabulary.putVocabulary(vocabulary);
         return awsDynamoDbVocabulary.getVocabulary(vocabulary.getK_vocab_id());
+    }
+
+    @DeleteMapping(path = "/vocabularies/{key}",
+            produces = MediaType.APPLICATION_JSON_VALUE)
+    public Vocabulary deleteVocabulary(@PathVariable String key) {
+        LOGGER.info("Deleting Vocabulary with key: " + key);
+        return awsDynamoDbVocabulary.deleteVocabulary(key);
     }
 }
