@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -35,17 +38,22 @@ public class VocabularyController {
         return awsDynamoDbVocabulary.getVocabulary(key);
     }
 
-    @PostMapping(path = "/vocabularies",
-            consumes = MediaType.APPLICATION_JSON_VALUE,
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/vocabularies", method = {RequestMethod.POST, RequestMethod.PUT},
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Vocabulary putVocabulary(@RequestBody Vocabulary vocabulary) {
         LOGGER.info("Putting new Vocabulary: " + vocabulary);
         awsDynamoDbVocabulary.putVocabulary(vocabulary);
         return awsDynamoDbVocabulary.getVocabulary(vocabulary.getK_vocab_id());
     }
 
-    @DeleteMapping(path = "/vocabularies/{key}",
-            produces = MediaType.APPLICATION_JSON_VALUE)
+    @RequestMapping(path = "/batchVocabularies", method = {RequestMethod.POST, RequestMethod.PUT},
+            consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public void putBatchVocabulary(@RequestBody List<Vocabulary> vocabularyList) {
+        LOGGER.info("Putting batch of vocabulary: " + vocabularyList.size());
+        awsDynamoDbVocabulary.putBatchItem(vocabularyList);
+    }
+
+    @DeleteMapping(path = "/vocabularies/{key}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Vocabulary deleteVocabulary(@PathVariable String key) {
         LOGGER.info("Deleting Vocabulary with key: " + key);
         return awsDynamoDbVocabulary.deleteVocabulary(key);

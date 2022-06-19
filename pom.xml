@@ -37,7 +37,7 @@
 		<dependency>
 			<groupId>com.github.Yurizaki</groupId>
 			<artifactId>caixiu-aws</artifactId>
-			<version>main-SNAPSHOT</version>
+			<version>de5b032f14</version>
 		</dependency>
 
 		<dependency>
