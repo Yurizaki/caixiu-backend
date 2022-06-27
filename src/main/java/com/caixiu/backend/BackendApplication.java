@@ -1,6 +1,9 @@
 package com.caixiu.backend;
 
+import com.caixiu.backend.dao.ItemDao;
+import com.caixiu.backend.vocabulary.VocabularyDao;
 import com.holmes.aws.vocabulary.AwsDynamoDbVocabulary;
+import com.holmes.aws.vocabulary.Vocabulary;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
@@ -19,6 +22,7 @@ import software.amazon.awssdk.services.dynamodb.DynamoDbClient;
 
 import java.util.Map;
 
+
 @SpringBootApplication
 @Configuration
 public class BackendApplication implements CommandLineRunner{
@@ -34,6 +38,11 @@ public class BackendApplication implements CommandLineRunner{
     }
 
     @Bean
+    public VocabularyDao vocabularyDao() {
+        return new VocabularyDao();
+    }
+
+    @Bean
     public AwsDynamoDbVocabulary awsDynamoDbVocabulary(DynamoDbClient dynamoDbClient) {
         return new AwsDynamoDbVocabulary(dynamoDbClient);
     }
@@ -45,6 +54,7 @@ public class BackendApplication implements CommandLineRunner{
     @Override
     public void run(String... args) {
         LOGGER.info("Starting up application");
+        loadCaches();
     }
 
     @EventListener
@@ -54,5 +64,9 @@ public class BackendApplication implements CommandLineRunner{
                 .getBean("requestMappingHandlerMapping", RequestMappingHandlerMapping.class);
         Map<RequestMappingInfo, HandlerMethod> map = requestMappingHandlerMapping.getHandlerMethods();
         map.forEach((key, value) -> LOGGER.info("{} {}", key, value));
+    }
+
+    private void loadCaches() {
+        vocabularyDao().loadCache();
     }
 }

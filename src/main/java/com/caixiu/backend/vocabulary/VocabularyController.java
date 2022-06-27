@@ -30,7 +30,12 @@ public class VocabularyController {
     public static final String DELETE_ITEM_PATH_1_0 = API_VERSION_1_0 + ENDPOINT_NAME_1_0 + "/{key}";
     public static final String POST_BATCH_ITEM_PATH_1_0 = API_VERSION_1_0 + BATCH_ENDPOINT_NAME_1_0;
 
+    public static final String META_GET_RELOAD_CACHE_1_0 = API_VERSION_1_0 + "/meta" + ENDPOINT_NAME_1_0;
+
     private static final Logger LOGGER = LoggerFactory.getLogger(VocabularyController.class);
+
+    @Autowired
+    VocabularyDao vocabularyDao;
 
     @Autowired
     AwsDynamoDbVocabulary awsDynamoDbVocabulary;
@@ -39,7 +44,7 @@ public class VocabularyController {
     public List<Vocabulary> getAllVocabulary() {
         LOGGER.info("Get All Vocabulary");
 
-        return awsDynamoDbVocabulary.getAllItems();
+        return vocabularyDao.hasCache() ? vocabularyDao.getAllFromCache() : vocabularyDao.getAll();
     }
 
     @GetMapping(path = GET_ITEM_PATH_1_0)
@@ -71,5 +76,10 @@ public class VocabularyController {
         LOGGER.info("Deleting Vocabulary with key: " + key);
 
         return awsDynamoDbVocabulary.deleteVocabulary(key);
+    }
+
+    @GetMapping(path = META_GET_RELOAD_CACHE_1_0)
+    public boolean getReloadCache() {
+        return vocabularyDao.reloadCache();
     }
 }
